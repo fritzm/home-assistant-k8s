@@ -2,11 +2,14 @@
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: home-assistant
+  name: home-assistant
   labels:
     app: home-assistant
-  name: home-assistant
 spec:
   type: ClusterIP
+  selector:
+    app: home-assistant
   ports:
   - port: 8123
     targetPort: http

@@ -2,9 +2,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: home-assistant
+  name: home-assistant
   labels:
     app: home-assistant
-  name: home-assistant
 spec:
   revisionHistoryLimit: 3
   replicas: 1
@@ -18,18 +19,15 @@ spec:
       labels:
         app: home-assistant
     spec:
-#      securityContext:
-#        fsGroup: 33
-#        fsGroupChangePolicy: "OnRootMismatch"
       containers:
       - name: home-assistant-app
-        image: "ghcr.io/home-assistant/home-assistant:2022.12.1"
+        image: "ghcr.io/home-assistant/home-assistant:2024.7"
         imagePullPolicy: IfNotPresent
         securityContext:
           privileged: null
-        envFrom:
-          - configMapRef:
-              name: home-assistant-config
+        env:
+          - name: TZ
+            value: "America/Santiago"
         ports:
           - name: http
             containerPort: 8123
